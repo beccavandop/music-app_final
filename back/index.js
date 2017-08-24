@@ -14,6 +14,12 @@ app.use(function(req, res, next) {
     next();
   });
 
+  //AWS stuff
+  const path = require('path');
+  app.use(express.static(path.resolve(__dirname+'/../front/build')));
+
+
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -25,7 +31,7 @@ db.once('open', function() {
 	console.log("Connected to db at /data/db/")
 });
 
-app.get('/', (req, res) => {
+app.get('/music', (req, res) => {
     console.log('request')
     Artist.find({})
         .populate('album_id')
@@ -70,6 +76,12 @@ const seedAlbums = require('./seeds/album');
 seedArtists();
 seedAlbums();
 
+
+//wildcard ==> needed to make sure we always send back index.html regardless of file path 
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname + './../front-end/build/index.html'))
+   })
+   
 app.listen(8080, () => {
     console.log('SERVER RUNNING ON 8080');
 })

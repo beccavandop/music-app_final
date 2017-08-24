@@ -29,7 +29,7 @@ class App extends Component {
   }
   
   componentWillMount(){
-    axios.get('http://localhost:8080/')
+    axios.get('/music')
     .then(res =>{
       this.setState({
         artist: res.data
