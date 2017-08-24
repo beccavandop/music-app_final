@@ -15,7 +15,8 @@ app.use(function(req, res, next) {
   });
 
   //AWS stuff
-  const path = require('path');
+  const path = require('path'), 
+    PORT = process.env.PORT || 8080
   app.use(express.static(path.resolve(__dirname+'/../front/build')));
 
 
@@ -79,9 +80,9 @@ seedAlbums();
 
 //wildcard ==> needed to make sure we always send back index.html regardless of file path 
 app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname + './../front-end/build/index.html'))
+    res.sendFile(path.resolve(__dirname + './../front/build/index.html'))
    })
    
-app.listen(8080, () => {
-    console.log('SERVER RUNNING ON 8080');
+app.listen(PORT, () => {
+    console.log('SERVER RUNNING ON' + PORT);
 })
